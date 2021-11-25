@@ -272,4 +272,4 @@ Submissions will be evaluated and voted by a commission on the following aspects
 
 And last but not least: **it needs to work!**
 
-The **best 3** Kamelets will grant a prize to their owners. 
+The **best 3** Kamelets will grant a prize to their authors. 
