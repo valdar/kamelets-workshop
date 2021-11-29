@@ -2,13 +2,13 @@
 
 This workshop will drive you to the basics of writing new Kamelets, using and sharing them with the community.
 
-**Prizes are available** for the 3 people who provide the most complete solution to the last exercise (see below).
+**Prizes are available** for the 3 people who provide the most complete solutions to the last exercise (see below).
 
 ## Introduction
 
 This workshop is divided into multiple parts with increasing level of difficulty.
 
-We'll stay connected for **50 minutes** to provide help during the initial steps, bust last exercise (the one that is valid for the prize) can be completed also in the next few days (**deadline for submission is Monday December 6th at 10:00 CET**).
+We'll stay connected for **50 minutes** to provide help during the initial steps, bust last exercise (the one that is valid for the prize) can be completed also in the next few days (**deadline for submission is Monday December 6th at 18:00 CET**).
 
 It's required that you install on your machine some tools that will help you to write and tests the Kamelets. 
 
@@ -18,11 +18,11 @@ It's required that you install on your machine some tools that will help you to 
 
 You need the following tools:
 
-- VS Code: latest version available for your OS
-- Extension Pack for Apache Camel by Red Hat (includes Didact): available from the Extension Marketplace within VS Code
-- JBang
-- Kamel CLI
-- Camel Karavan Designer: available from the Extension Marketplace within VS Code
+- [JBang](https://www.jbang.dev/): you need to install it on your machine.
+- [VS Code](https://code.visualstudio.com/): install latest version available for your OS.
+- [Extension Pack for Apache Camel by Red Hat (includes Didact)](https://marketplace.visualstudio.com/items?itemName=redhat.apache-camel-extension-pack): available from the Extension Marketplace within VS Code.
+- [Camel Karavan Designer](https://marketplace.visualstudio.com/items?itemName=camel-karavan.karavan): available from the Extension Marketplace within VS Code.
+- [Kamel CLI](https://github.com/apache/camel-k/releases): needed only for scaffolding here, download the binary for your platform and put it in path.
 
 Once you've all requirements met, go to the next step.
 
@@ -34,9 +34,33 @@ Right-click on the `README.didact.md` file then click on `Didact: start Didact T
 
 I like to think that **Brian would be happy** for anyone doing this.
 
+## 0.3 Check the requirements
+
+Thanks to Didact, we can check if you've installed everything correctly.
+
+[Check if JBang is installed](didact://?commandId=vscode.didact.cliCommandSuccessful&text=jbang-requirements-status$$jbang%20version&completion=Checked%20jbang%20tool%20availability "Tests to see if `jbang version` returns a 0 return code"){.didact}
+
+*Status: unknown*{#jbang-requirements-status}
+
+[Check if the VS Code Extension Pack for Apache Camel by Red Hat is installed](didact://?commandId=vscode.didact.extensionRequirementCheck&text=extension-requirement-status$$redhat.apache-camel-extension-pack&completion=Check%20Camel%20extension%20pack%20is%20available%20on%20this%20system. "Checks the VS Code workspace to make sure the extension pack is installed"){.didact}
+
+*Status: unknown*{#extension-requirement-status}
+
+[Check if the VS Code Karavan Designer is installed](didact://?commandId=vscode.didact.extensionRequirementCheck&text=karavan-requirement-status$$camel-karavan.karavan&completion=Check%20Karavan%20designer%20is%20available%20on%20this%20system. "Checks the VS Code workspace to make sure the Karavan designer is installed"){.didact}
+
+*Status: unknown*{#karavan-requirement-status}
+
+[Check if Kamel is installed](didact://?commandId=vscode.didact.cliCommandSuccessful&text=kamel-requirements-status$$kamel%20version&completion=Checked%20kamel%20tool%20availability "Tests to see if `kamel version` returns a 0 return code"){.didact}
+
+*Status: unknown*{#kamel-requirements-status}
+
+
+<a href='didact://?commandId=vscode.didact.validateAllRequirements' title='Validate all requirements!'><button>Validate all Requirements at Once!</button></a>
+
+
 ## 1. Use Kamelets with JBang
 
-The Camel JBang extension allows to run Camel integrations that use Kamelets from the [default catalog at Apache](https://camel.apache.org/camel-kamelets/next/). We'll see later how can we also use locally defined Kamelets during development.
+The Camel JBang extension allows to run Camel integrations that use Kamelets from the [default catalog at Apache](https://camel.apache.org/camel-kamelets/next/). We'll see later how we can also use locally defined Kamelets during development.
 
 ### 1.1 Run your first Kamelet using JBang
 
@@ -58,9 +82,9 @@ As you see, the route starts from the `kamelet:chuck-norris-source` endpoint and
 To run the integration, you can use the following JBang command:
 
 ```
-jbang CamelJBang@apache/camel run example.yaml
+jbang --deps=org.apache.camel.kamelets:camel-kamelets:0.5.0 CamelJBang@apache/camel run example.yaml
 ```
-([^ execute](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=newTerminal$$jbang%20CamelJBang@apache/camel%20run%20example.yaml))
+([^ execute](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=newTerminal$$jbang%20--deps=org.apache.camel.kamelets:camel-kamelets:0.5.0%20CamelJBang@apache/camel%20run%20example.yaml))
 
 If everything works correctly, you should see some Chuck Norris sentences in the logs.
 
@@ -191,7 +215,7 @@ jbang --cp . CamelJBang@apache/camel run kamelet-test.yaml
 ```
 ([^ execute](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=newTerminal$$jbang%20--cp%20.%20CamelJBang@apache/camel%20run%20kamelet-test.yaml))
 
-**NOTE:** the trick here is to use `--cp .` to include the current directory in the Java path. Since the `camel-kamelet` component looks into `classpath:/kamelets` to find Kamelets to use, it will be able to find the `./kamelets/my-random-source.kamelet.yaml` file as well.
+**NOTE:** the trick here is to use `--cp .` to include the current directory in the Java path. Since the `camel-kamelet` component looks into `classpath:/kamelets` to find Kamelets to use, it will be able to find the `./kamelets/my-random-source.kamelet.yaml` file as well. There's a [new flag coming in 3.14](https://github.com/apache/camel/pull/6471) to load kamelets from a local directory: `--local-kamelet-dir`.
 
 If you see the expected data, we're done!
 
@@ -259,7 +283,7 @@ Look at the [Kamelet Catalog](https://camel.apache.org/camel-kamelets/next/) to 
 
 Contributions need to be received in the form of pull requests in the [Camel Kamelets](https://github.com/apache/camel-kamelets) repository (you are encouraged to look at the source code of existing Kamelets).
 
-The **deadline for submission is Monday December 6th at 10:00 CET** (date of creation of the PR, it does not need to be merged).
+The **deadline for submission is Monday December 6th at 18:00 CET** (date of creation of the PR, it does not need to be merged).
 
 Refer to the [Kamelets developer guide](https://camel.apache.org/camel-k/next/kamelets/kamelets-dev.html) for instructions on how to create advanced Kamelets.
 
@@ -267,7 +291,7 @@ Before starting a specific Kamelet, remember to state what you're going to work 
 
 Submissions will be evaluated and voted by a commission on the following aspects:
 - **Usefulness**: how much it's interesting for a customer to have it in the catalog; how much a sales/marketing/eng person would use it to do a demo for possible customers.
-- **Complexity**: if you pick an existing Camel component and "wrap" it into a Kamelet, you get the lowest score (even if you add a nice icon :D). Using complex logic with multiple steps and EIPs is a plus (we want to enforce the concept that customers can wrap real integration logic into a Kamelet).
+- **Complexity**: you can pick an existing Camel component and "wrap" it into a Kamelet to create a simple one, or you can use complex logic with multiple steps and EIPs to get more points (we want to enforce the concept that customers can wrap real integration logic into a Kamelet).
 - **Documentation**: the documentation inside the Kamelet YAML spec needs to be complete and allow users to understand the purpose of the Kamelet itself and its configuration properties.
 
 And last but not least: **it needs to work!**
