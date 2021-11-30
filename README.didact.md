@@ -82,7 +82,7 @@ As you see, the route starts from the `kamelet:chuck-norris-source` endpoint and
 To run the integration, you can use the following JBang command:
 
 ```
-jbang --fresh -Dcamel.jbang.version=3.14.0-SNAPSHOT --deps=org.apache.camel.kamelets:camel-kamelets:0.5.0 CamelJBang@apache/camel run example.yaml
+jbang --fresh -Dcamel.jbang.version=3.13.0 --deps=org.apache.camel.kamelets:camel-kamelets:0.5.0 CamelJBang@apache/camel run example.yaml
 ```
 ([^ execute](didact://?commandId=vscode.didact.sendNamedTerminalAString&text=newTerminal$$jbang%20--fresh%20-Dcamel.jbang.version=3.14.0-SNAPSHOT%20--deps=org.apache.camel.kamelets:camel-kamelets:0.5.0%20CamelJBang@apache/camel%20run%20example.yaml))
 
